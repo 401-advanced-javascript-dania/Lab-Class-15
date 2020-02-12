@@ -1,6 +1,6 @@
 
 
-const {server} = require('../server.js/index.js');
+const {server} = require('../server.js');
 const supergoose = require('@code-fellows/supergoose');
 const mockRequest = supergoose(server);
 describe('Categories API',()=>{
