@@ -15,11 +15,11 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-app.use(express.static('./public'))
+app.use(express.static('./public'));
 app.use(apiRouter);
 app.use(error404);
 app.use(error500);
-app.use(logger)
+app.use(logger);
 
 module.exports = {
   server:app,

@@ -1,10 +1,10 @@
-  
+
 
 const express = require('express');
 const categories = require('../models/categories/categories-model.js');
 const products = require('../models/products/products-model.js');
 const router = express.Router();
-const Users =require('../auth/users.js');
+const Users = require('../auth/users.js');
 const basicOfAuth = require('../auth/basic-auth-middleware.js');
 const oauthMiddleware = require('../auth/oauth-middleware.js');
 
@@ -21,12 +21,12 @@ router.post('/api/v1/:model',postHandler);
 router.put('/api/v1/:model/:id',updateHandler);
 router.delete('/api/v1/:model/:id',deleteHandler);
 /**
- * @signin 
+ * @signin
  * @signup
  */
 router.post('/signup', signup);
 router.post('/signin', basicOfAuth, signin);
-router.get('/oauth',oauthMiddleware,oauth)
+router.get('/oauth',oauthMiddleware,oauth);
 /**
  *
  * @param {req.model.CRUDmethod} req
@@ -98,19 +98,19 @@ function getModel(req,res,next){
  * functon for signin and signup
  */
 function signup(req,res,next){
-    let users = new Users(req.body);
-    users.save()
-      .then(username=>{
-        req.token = username.tokenGenerationForSignup(username);
-        req.user = username;
-        res.status(200).json(req.token);
-      });
-  };
-  function signin(req,res,next){
-    res.status(200).send(req.token);
-  };
-  function oauth(req,res,next){
-    res.status(200).json(req.token);
-  };
+  let users = new Users(req.body);
+  users.save()
+    .then(username=>{
+      req.token = username.tokenGenerationForSignup(username);
+      req.user = username;
+      res.status(200).json(req.token);
+    });
+}
+function signin(req,res,next){
+  res.status(200).send(req.token);
+}
+function oauth(req,res,next){
+  res.status(200).json(req.token);
+}
 
 module.exports = router;
