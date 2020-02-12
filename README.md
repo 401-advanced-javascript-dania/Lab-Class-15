@@ -6,9 +6,9 @@
 
 ### Links and Resources
 
-- [submission PR]()
-- [ci/cd](https://github.com/401-advanced-javascript-dania/Lab-Class-15/actions)
+- [submission PR](https://github.com/401-advanced-javascript-dania/Lab-Class-15/pull/1)
 
+- [ci/cd](https://github.com/401-advanced-javascript-dania/Lab-Class-15/actions)
 
 ### Setup
 *npm init -y*
