@@ -7,7 +7,8 @@ const router = express.Router();
 const Users = require('../auth/users.js');
 const basicOfAuth = require('../auth/basic-auth-middleware.js');
 const oauthMiddleware = require('../auth/oauth-middleware.js');
-
+const bearerMiddleware = require('../auth/bearer-auth-middleware.js');
+const aclMiddleware = require('../auth/acl-middleware.js')
 //Define our router
 router.param('model',getModel);
 /**
@@ -27,6 +28,15 @@ router.delete('/api/v1/:model/:id',deleteHandler);
 router.post('/signup', signup);
 router.post('/signin', basicOfAuth, signin);
 router.get('/oauth',oauthMiddleware,oauth);
+router.get('/public',public);
+router.get('/private',basicOfAuth,private)
+router.get('/readonly',bearerMiddleware,aclMiddleware('read'),readonly)
+router.get('/create',bearerMiddleware,aclMiddleware('create'),create)
+router.get('/update',bearerMiddleware,aclMiddleware('update'),update)
+router.get('/delete',bearerMiddleware,aclMiddleware('delete'),deleteRoute)
+router.get('/everything',bearerMiddleware,aclMiddleware('read,create,update,delete'),admin)
+
+
 /**
  *
  * @param {req.model.CRUDmethod} req
@@ -112,5 +122,29 @@ function signin(req,res,next){
 function oauth(req,res,next){
   res.status(200).json(req.token);
 }
+function public(req,res){
+  Users.data()
+    .then(dataOfUser => {
+      res.status(200).json(dataOfUser);
+    });
+};
+function private(req,res){
+  res.status(200).send(req.token);
+};
+function readonly(req,res,next){
+  res.status(200).send('authorized for just read');
+};
+function create(req,res,next){
+  res.status(200).send('authorized for creat');
+};
+function update(req,res,next){
+  res.status(200).send('authorized for update');
+};
+function deleteRoute(req,res,next){
+  res.status(200).send('authorized for delete');
+};
+function admin(req,res,next){
+  res.status(200).send('authorized for every thing');
+};
 
 module.exports = router;
